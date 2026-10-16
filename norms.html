@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="robots" content="noindex"><style>*{box-sizing:border-box}body{margin:0;font-size:14px}[hidden]{display:none!important}</style></head><body>
+<title>Чек-лист норм участка 27</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;700&family=PT+Sans+Narrow:wght@400;700&display=swap">
+<style>
+/* Лист альбома: колонка 1120 px, три схемы в ряд, таблица фонда. Те же токены, что в «Анализе участка 27». */
+:root {
+  --bg: #f3f5f7; --sheet: #ffffff; --ink: #18212b; --muted: #5f6c79; --line: #d7dde3;
+  --lot: #c4372c; --ridge: #2f6597; --good: #2f7d4f; --mid: #b07a12; --bad: #b4473b;
+  --studio: #efe3c4; --one: #d6e4dc; --family: #dcd6ea; --core: #c9ced5; --cor: #eef1f4;
+  --lob: #dfe8f1; --bf: #f6dcc4; --srv: #e4e4e4; --ter: rgba(47, 125, 79, 0.14); --ski: rgba(47, 101, 151, 0.16); --ground: #f7f9fa;
+  --font-d: "Unbounded", "Golos Text", system-ui, sans-serif; --font-b: "Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f1418; --sheet: #161d23; --ink: #e5eaef; --muted: #9aa7b3; --line: #2b353f;
+  --lot: #e5584b; --ridge: #6fa3d6; --good: #5cb383; --mid: #d9a441; --bad: #e07467;
+  --studio: #4a4430; --one: #2f4a3f; --family: #3f3a55; --core: #3a434d; --cor: #222b33;
+  --lob: #263646; --bf: #4a3626; --srv: #2c3036; --ter: rgba(92, 179, 131, 0.18); --ski: rgba(111, 163, 214, 0.2); --ground: #12191e; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0f1418; --sheet: #161d23; --ink: #e5eaef; --muted: #9aa7b3; --line: #2b353f;
+  --lot: #e5584b; --ridge: #6fa3d6; --good: #5cb383; --mid: #d9a441; --bad: #e07467;
+  --studio: #4a4430; --one: #2f4a3f; --family: #3f3a55; --core: #3a434d; --cor: #222b33;
+  --lob: #263646; --bf: #4a3626; --srv: #2c3036; --ter: rgba(92, 179, 131, 0.18); --ski: rgba(111, 163, 214, 0.2); --ground: #12191e; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-b); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 56px; }
+.wrap { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+.sheet { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: clamp(18px, 3vw, 32px); display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.eyebrow { font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+h1 { font-family: var(--font-d); font-weight: 700; font-size: clamp(26px, 4vw, 38px); line-height: 1.1; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--font-d); font-weight: 500; font-size: 21px; margin: 0; text-wrap: balance; }
+h3 { font-size: 16.5px; margin: 0; }
+h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 6px; }
+p { margin: 0; max-width: 74ch; }
+.lead { font-size: 17px; }
+.given { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.given div { border-top: 3px solid var(--line); padding-top: 8px; font-size: 14px; }
+.given b { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 12px; height: 12px; border-radius: 2px; display: inline-block; border: 1px solid var(--line); }
+.vars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 980px) { .vars { grid-template-columns: 1fr; } }
+.var { border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.var.rec { border-color: var(--lot); box-shadow: 0 0 0 1px var(--lot) inset; }
+.var header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.idea { font-size: 13.5px; color: var(--muted); }
+.fp-wrap { background: var(--ground); border-radius: 6px; padding: 6px; }
+.fp-svg { width: 100%; height: auto; display: block; }
+.kv { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; margin: 0; }
+.kv div { display: flex; flex-direction: column; }
+.kv dt { font-size: 11.5px; color: var(--muted); }
+.kv dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.pc { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px; }
+.pc ul, .list { margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 4px; }
+@media (max-width: 480px) { .pc, .kv { grid-template-columns: 1fr; } }
+.pill { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+.pill.good { color: var(--good); }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { border-bottom: 1px solid var(--line); padding: 8px 10px; text-align: left; }
+thead th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.cmp td:nth-child(3), .cmp th:nth-child(3) { background: var(--ter); }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; font-size: 14px; }
+.note { font-size: 12.5px; color: var(--muted); }
+.c { text-anchor: middle; }
+.fp-shell { fill: var(--sheet); stroke: var(--ink); stroke-width: 5; }
+.fp-unit { stroke: var(--ink); stroke-width: 1.2; } .u-studio { fill: var(--studio); } .u-one { fill: var(--one); } .u-family { fill: var(--family); }
+.fp-room { stroke: var(--ink); stroke-width: 1.2; } .fp-room.lob { fill: var(--lob); } .fp-room.bf { fill: var(--bf); } .fp-room.srv { fill: var(--srv); }
+.fp-core { fill: var(--core); stroke: var(--ink); stroke-width: 1.2; } .fp-cor { fill: var(--cor); }
+.fp-ter { fill: var(--ter); stroke: var(--good); stroke-width: 1.2; stroke-dasharray: 4 2; }
+.fp-ski { fill: var(--ski); stroke: var(--ridge); stroke-width: 1.2; } .fp-step { stroke: var(--ridge); stroke-width: .8; }
+.fp-lotline { fill: none; stroke: var(--lot); stroke-width: 2; stroke-dasharray: 9 4; }
+.fp-ent { fill: var(--lot); } .fp-ent-t { fill: var(--lot); font: 700 11.5px var(--font-b); }
+.fp-id { fill: var(--ink); font: 700 12px var(--font-b); } .fp-t { fill: var(--ink); font: 500 10.5px var(--font-b); } .fp-s { fill: var(--muted); font: 600 10px var(--font-b); }
+.fp-side { fill: var(--muted); font: 600 11px var(--font-b); letter-spacing: .06em; }
+
+:root { --paper: #ffffff; --desk: #e7eaed; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --desk: #0b0f12; } }
+:root[data-theme="dark"] { --desk: #0b0f12; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.tab { font: 500 13.5px var(--font-b); color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+.tab b { font-weight: 700; margin-right: 4px; }
+.tab[aria-pressed="true"] { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
+.viewer { position: relative; background: var(--desk); border-radius: 8px; overflow: auto; height: min(78vh, 900px); touch-action: pan-x pan-y; cursor: grab; }
+.viewer.drag { cursor: grabbing; }
+.dwg-page { padding: 14px; width: calc(100% * var(--z, 1)); min-width: 100%; }
+.dwg { display: block; width: 100%; height: auto; background: var(--paper); box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+.zoom { position: sticky; top: 10px; left: 10px; z-index: 2; display: inline-flex; gap: 4px; margin: 10px 0 -46px 10px; }
+.zoom button { font: 600 15px var(--font-b); width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--line); background: var(--sheet); color: var(--ink); cursor: pointer; }
+.zoom output { font: 600 12px var(--font-b); color: var(--muted); align-self: center; background: var(--sheet); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); }
+.fl-n { font-weight: 700; vertical-align: top; white-space: nowrap; }
+.cols2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; font-size: 14px; }
+.cols2 ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+.bignum { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.bignum div { border-top: 3px solid var(--line); padding-top: 6px; }
+.bignum b { display: block; font-family: var(--font-d); font-size: 24px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.bignum span { font-size: 12.5px; color: var(--muted); }
+
+.st { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+.st.ok { color: var(--good); } .st.warn { color: var(--mid); } .st.bad { color: var(--bad); } .st.q { color: var(--ridge); }
+tr.sec td { font-weight: 700; background: var(--cor); font-size: 13px; text-transform: uppercase; letter-spacing: .05em; }
+.chk td { vertical-align: top; font-size: 13.5px; }
+.chk td:nth-child(2), .chk td:nth-child(3), .chk td:nth-child(5) { min-width: 180px; }
+</style>
+<div class="wrap">
+<a href="index.html" style="color:var(--muted);font-size:14px;text-decoration:none">← 3D-карта курорта</a>
+<section class="sheet">
+  <div class="eyebrow">Ала-Тоо Резорт · участок 27 · эскизный проект · шаг 5 из 6</div>
+  <h1>Чек-лист норм участка 27</h1>
+  <p class="lead">Каждый пункт измерен по IFC-модели: расстояния, высоты, площади, выступы, часы солнца. Ориентиры взяты из норм Кыргызстана и российских сводов правил, на которых они во многом основаны. Окончательную проверку по действующим редакциям СН КР делают местный проектировщик и пожарный эксперт. Этот список — повестка для разговора с ними.</p>
+  <div class="bignum">
+    <div><b>10</b><span>соответствует</span></div>
+    <div><b>10</b><span>нужно решение собственника или согласование</span></div>
+    <div><b>4</b><span>не соответствует — исправить в проекте</span></div>
+    <div><b>7</b><span>проверить расчётом или документом на стадии П</span></div>
+  </div>
+  <p class="note">Таблица для Excel: <a href="csv/Чек-лист_норм.csv">Чек-лист норм</a></p>
+</section>
+<section class="sheet">
+  <h2>Что исправить в первую очередь</h2>
+  <ul class="list"><li><b>Квартиры выше 15 м — аварийный выход (балкон или лоджия с глухим простенком ≥ 1,2 м и т. п.).</b> Добавить балкон или лоджию на северном фронтоне (5СЗ, 5СВ) и в западном скате (5З) или согласовать другой аварийный выход.</li><li><b>Подвальный (цокольный) этаж — отдельный выход наружу, не через общую лестницу надземной части.</b> Дверь с площадки ±0,000 прямо наружу на северную террасу или отдельная наружная лестница из полуцоколя.</li><li><b>Выход на кровлю для зданий выше 10 м.</b> Люк 0,6 × 0,8 м со стремянкой из лестничной клетки в зону конька.</li><li><b>Вход для МГН: пандус ≤ 5 % или подъёмник.</b> Вертикальный подъёмник у главного входа или вход в уровне земли через лыжный холл полуцоколя и лифт.</li></ul>
+  <p class="note">Это изменения модели, и их можно сделать сразу: аварийные выходы мансарды, второй выход из полуцоколя, люк на кровлю, подъёмник у входа. Каждое добавит немного площади и стоимости, но не меняет концепцию.</p>
+</section>
+<section class="sheet">
+  <h2>Чек-лист</h2>
+  <div class="tbl"><table class="chk"><thead><tr><th>№</th><th>Требование (ориентир)</th><th>В проекте (по модели)</th><th>Статус</th><th>Что делать</th></tr></thead>
+  <tbody><tr class="sec"><td colspan="5">Участок и градостроительство</td></tr><tr><td class="num">1</td><td>Высота здания по условиям: 22–25 м</td><td>Конёк 24,50 м над землёй (+23,300 от пола 1-го этажа)</td><td><span class="st ok">соответствует</span></td><td>—</td></tr><tr><td class="num">2</td><td>Этажность по согласованию: 4 этажа; мансарда считается этажом (проект СН КР, В.5)</td><td>5 надземных этажей (5-й мансардный) + полуцоколь</td><td><span class="st warn">нужно решение</span></td><td>Получить разрешение на 5-й этаж (письмо в работе по чату собственников).</td></tr><tr><td class="num">3</td><td>Выступы за границу участка — с правом пользования землёй</td><td>Юг: рёбра, террасы, кровля до 3,0 м. Север: терраса кафе 3,0 м, лестница кафе 5,1 м. Запад и восток: изломы 2,0 м, терраса 1З 3,0 м, входная лестница 4,1 м, козырёк 3,2 м, лыжный приямок 1,8 м. Вентфасад 0,22 м по всему периметру</td><td><span class="st warn">нужно решение</span></td><td>Письменное право пользования полосой и согласование выступов, как для балконов соседей.</td></tr><tr><td class="num">4</td><td>Площадь застройки: консоли выше 4,5 м не учитываются, опоры до земли учитываются (проект СН КР, В.4)</td><td>480,3 м² при пятне 458,9 м²; превышение — облицовка и рёбра-опоры</td><td><span class="st warn">нужно решение</span></td><td>Согласовать учёт вентфасада или перенести облицовку внутрь контура (−0,3 м² на квартиру).</td></tr><tr><td class="num">5</td><td>Противопожарный разрыв до соседних зданий: от 6 м для зданий I–II степени огнестойкости</td><td>15,0 м от стен и 11,2 м от консолей до ближайшего 4-этажного апарт-здания</td><td><span class="st ok">соответствует</span></td><td>—</td></tr><tr><td class="num">6</td><td>Подъезд пожарной техники: проезд вдоль одной продольной стороны на 5–8 м от здания (для высоты до 28 м)</td><td>Ближайшая улица на генплане — 71 м (запад и север) и 75–96 м (восток и юг). Вокруг пешеходная площадь</td><td><span class="st q">проверить</span></td><td>Подтвердить у курорта, что площадь и дорожки — пожарный проезд (нагрузка, ширина 3,5 м, разворот). Иначе нужен проезд.</td></tr><tr class="sec"><td colspan="5">Пожарная безопасность и эвакуация</td></tr><tr><td class="num">7</td><td>Одна лестница допустима для жилого здания (Ф1.3): площадь квартир на этаже ≤ 500 м², высота ≤ 28 м</td><td>Апартаменты на этаже — до 341 м²; пол верхнего этажа на 15,6 м над землёй</td><td><span class="st warn">нужно решение</span></td><td>Решение зависит от класса: жильё (Ф1.3) — допустимо; апарт-отель или гостиница (Ф1.2) — обычно нужны 2 выхода с этажа. Определить класс с юристом и пожарным экспертом.</td></tr><tr><td class="num">8</td><td>Квартиры выше 15 м — аварийный выход (балкон или лоджия с глухим простенком ≥ 1,2 м и т. п.)</td><td>Пол мансарды на 15,6 м над землёй. 5ПЗ и 5ПВ — с балконами; 5З, 5СЗ, 5СВ — без балконов</td><td><span class="st bad">не соответствует</span></td><td>Добавить балкон или лоджию на северном фронтоне (5СЗ, 5СВ) и в западном скате (5З) или согласовать другой аварийный выход.</td></tr><tr><td class="num">9</td><td>Расстояние от двери квартиры до лестницы: ориентир ≤ 25 м</td><td>Максимум 18,7 м (квартиры Ю1 и Ю4 на 2–4 этажах)</td><td><span class="st ok">соответствует</span></td><td>—</td></tr><tr><td class="num">10</td><td>Ширина путей: коридор ≥ 1,4 м, марш ≥ 1,05 м, двери на лестницу ≥ 0,9 м по ходу эвакуации</td><td>Коридор 1,6 м в чистоте; марш ~1,3 м; дверь 1,0 м открывается в лестничную клетку</td><td><span class="st ok">соответствует</span></td><td>—</td></tr><tr><td class="num">11</td><td>Лестничная клетка с естественным светом на каждом этаже (тип Л1)</td><td>Окно в северной стене лестницы на каждом этаже и во фронтоне</td><td><span class="st ok">соответствует</span></td><td>—</td></tr><tr><td class="num">12</td><td>Подвальный (цокольный) этаж — отдельный выход наружу, не через общую лестницу надземной части</td><td>Лестница полуцоколя отсечена плитой REI 60; наружу — только лыжный вход</td><td><span class="st bad">не соответствует</span></td><td>Дверь с площадки ±0,000 прямо наружу на северную террасу или отдельная наружная лестница из полуцоколя.</td></tr><tr><td class="num">13</td><td>Выход на кровлю для зданий выше 10 м</td><td>Марш над мансардой убран; выхода на кровлю нет</td><td><span class="st bad">не соответствует</span></td><td>Люк 0,6 × 0,8 м со стремянкой из лестничной клетки в зону конька.</td></tr><tr><td class="num">14</td><td>Наружная система фасада класса К0: негорючий утеплитель, отсечки по этажам</td><td>Заложены минвата 150 мм, керамогранит, металлические кассеты</td><td><span class="st q">проверить</span></td><td>Выбрать сертифицированную систему вентфасада с заключением по пожарной безопасности.</td></tr><tr><td class="num">15</td><td>Огнестойкость конструкций (REI, EI) подтверждена расчётом</td><td>В IFC — только названия (REI 60, EI 30)</td><td><span class="st q">проверить</span></td><td>Расчёт и узлы на стадии П.</td></tr><tr class="sec"><td colspan="5">Доступность для маломобильных</td></tr><tr><td class="num">16</td><td>Вход для МГН: пандус ≤ 5 % или подъёмник</td><td>Подъём 1,2 м по 7 ступеням, пандуса нет (пандус занял бы ~24 м)</td><td><span class="st bad">не соответствует</span></td><td>Вертикальный подъёмник у главного входа или вход в уровне земли через лыжный холл полуцоколя и лифт.</td></tr><tr><td class="num">17</td><td>Лифт с кабиной для коляски (1,1 × 2,1 м), дверь ≥ 0,9 м</td><td>Шахта 2,1 × 2,1 м в чистоте, дверь 0,9 м, остановки на всех уровнях</td><td><span class="st ok">соответствует</span></td><td>—</td></tr><tr><td class="num">18</td><td>Номера, приспособленные для МГН (если требует класс объекта или оператор)</td><td>Не выделены; двери санузлов 0,65–0,7 м</td><td><span class="st warn">нужно решение</span></td><td>Выделить 1 доступный номер на 1-м этаже: санузел с душем в уровне пола, двери 0,9 м.</td></tr><tr class="sec"><td colspan="5">Апартаменты и санитарные требования</td></tr><tr><td class="num">19</td><td>Санузлы не над жилыми комнатами и кухнями нижнего этажа</td><td>0 нарушений по 34 квартирам (автоматическая проверка)</td><td><span class="st ok">соответствует</span></td><td>—</td></tr><tr><td class="num">20</td><td>Эргономика: двери не бьют в мебель, зоны 0,6–0,9 м перед приборами, проходы у кроватей</td><td>0 ошибок по 34 квартирам; 1 замечание (спальня 5СЗ)</td><td><span class="st ok">соответствует</span></td><td>—</td></tr><tr><td class="num">21</td><td>Высота помещений ≥ 2,5 м; в мансарде площадь учитывается при h ≥ 1,6 м</td><td>Типовые этажи 3,08 м; 1-й этаж 4,28 м; мансарда — у стен 1,8–2,0 м, h ≥ 2,5 м на 91 % ширины</td><td><span class="st ok">соответствует</span></td><td>—</td></tr><tr><td class="num">22</td><td>Спальня ≥ 8 м² (для жилья)</td><td>Спальни 7,6–8,1 м² в семейных; детские 5,3–6,9 м² с двухъярусной кроватью</td><td><span class="st warn">нужно решение</span></td><td>Для апарт-отеля допустимо как компактный номер. Если класс — жильё, укрупнить спальни (вариант Family 52 м²).</td></tr><tr><td class="num">23</td><td>Инсоляция ≥ 1,5 ч в день (южная зона, с 22 февраля по 22 октября) хотя бы в одной комнате</td><td>Юг 8,4–9,2 ч (15 фев), запад и восток 3,9–4,5 ч, север 0 ч. У всех квартир есть комната на юг, запад или восток</td><td><span class="st ok">соответствует</span></td><td>Перепроверить с затенением собственными рёбрами 3 м: оценка для южных окон ~4 ч в равноденствие — норма выполняется.</td></tr><tr><td class="num">24</td><td>Естественный свет в кухнях</td><td>Кухни пентхаусов без своих окон, открыты в гостиные с панорамным фронтоном</td><td><span class="st warn">нужно решение</span></td><td>Допустимо как кухня-ниша при открытой связи; иначе — мансардное окно над кухней.</td></tr><tr><td class="num">25</td><td>Вентиляция санузлов и кухонь, стояки, шахты</td><td>Стояки совмещены (санузел над санузлом), шахты не выделены</td><td><span class="st q">проверить</span></td><td>Раздел ОВ и ВК на стадии П; зарезервировать шахты 0,3 × 0,4 м у каждого стояка.</td></tr><tr class="sec"><td colspan="5">Снег, лёд, климат</td></tr><tr><td class="num">26</td><td>Защита входов от схода снега и сосулек</td><td>Главный вход и лыжный спуск — под пологим восточным скатом 30°</td><td><span class="st warn">нужно решение</span></td><td>Снегозадержатели в 2–3 ряда, обогрев водостока и ендов, козырёк на снеговую нагрузку.</td></tr><tr><td class="num">27</td><td>Зоны схода снега с крутых скатов не над путями и террасами</td><td>Западный скат 51° — над террасой 1З и изломами запада</td><td><span class="st warn">нужно решение</span></td><td>Снегозадержание на западном скате, ограждение зоны схода у террасы.</td></tr><tr><td class="num">28</td><td>Снеговые мешки и наледь на консолях</td><td>Рёбра-изломы и плиты-изломы образуют карманы</td><td><span class="st warn">нужно решение</span></td><td>Капельники, уклоны плит-изломов, обогрев в местах таяния.</td></tr><tr><td class="num">29</td><td>Снеговая нагрузка и ветер по району на высоте 2 250 м</td><td>Не определены</td><td><span class="st q">проверить</span></td><td>Определить по СН КР и изысканиям; учесть в расчёте кровли и рёбер.</td></tr><tr class="sec"><td colspan="5">Конструкции и сейсмика</td></tr><tr><td class="num">30</td><td>Сейсмичность площадки (Иссык-Кульская котловина, ориентир 9 баллов)</td><td>Конструктивная схема не рассчитана; консоли рёбер до 3 м</td><td><span class="st q">проверить</span></td><td>Изыскания и расчёт. Консольные рёбра 3 м — проверить отдельно, при необходимости опереть на балконные плиты.</td></tr><tr><td class="num">31</td><td>Терморазрыв консолей (балконы, изломы, рёбра) при −30 °C</td><td>Заложен как требование, узлы не разработаны</td><td><span class="st q">проверить</span></td><td>Термовкладыши в узлах консолей — стадия П.</td></tr></tbody></table></div>
+</section>
+</div>
+
+</body></html>
