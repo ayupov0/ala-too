@@ -155,6 +155,7 @@ button { font: inherit; color: inherit; }
       <a class="chip doc" href="elevations.html">Фасады и разрезы (АР-7…АР-12)</a>
       <a class="chip doc" href="tep.html">Ведомости и ТЭП (АР-1)</a>
       <a class="chip doc" href="norms.html">Чек-лист норм</a>
+      <a class="chip doc" href="album_A3.pdf">Альбом АР · PDF А3</a>
       <a class="chip doc" href="review.html">Ревизия планировок: было / стало</a>
     </div>
   </section>
@@ -674,7 +675,7 @@ const FAC = {
   2: { facade: TEX.fluted, vc: false, frame: [TEX.graphite, TEX.wood],
        note: "Б2. Оболочка целиком тёмная: торцы изломов, рёбра севера и козырёк — графит, как кровля. Дерево только на потолках изломов и козырька, видно снизу и из квартир. Стены — рифлёный светлый керамогранит: вертикальные рёбра дают игру тени при низком солнце." },
   3: { facade: TEX.vtile, vc: true, frame: [TEX.graphite, TEX.graphite],
-       note: "Б3 — принят. Вертикальные плиты 300×1200 вразбежку в трёх тонах песочно-серого, внизу темнее, к мансарде светлее. Все изломы графитовые, дерева нет. Самый строгий и «каменный» вариант; рисунок даёт масштаб без рифления." },
+       note: "Б3 — принят. Вертикальные плиты 300×1200 вразбежку в трёх тонах одного цвета (выбор тона — ниже), внизу темнее, к мансарде светлее. Все изломы графитовые, дерева нет. Самый строгий и «каменный» вариант; рисунок даёт масштаб без рифления." },
 };
 const facNote = document.getElementById("facNote");
 let setFacade = function (v) {
@@ -700,6 +701,13 @@ function setTone(t) {
 for (const b of document.querySelectorAll("#facTone .chip")) b.onclick = () => setTone(b.dataset.t);
 setFacade(3);                                    // принят вариант Б3 (17.10.2026); остальные — для сравнения
 setTone("basalt");                               // принят тёмный базальт (17.10.2026)
+// ссылка вида …#cover-south: «cover» скрывает панель, остальное — ракурс (для обложки альбома и презентаций)
+{
+  const parts = (location.hash || "").replace("#", "").split("-");
+  if (parts.includes("cover")) { document.getElementById("panel").hidden = true; }
+  const v = VIEWS.find(v => parts.includes(v.id));
+  if (v) setTimeout(() => { const b = [...document.querySelectorAll("#views .chip")].find(b => b.textContent === v.name); if (b) b.click(); }, 300);
+}
 setLotMode("bim");
 
 function setSeason(s) {
