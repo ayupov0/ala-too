@@ -153,18 +153,21 @@ button { font: inherit; color: inherit; }
     <ol class="steps-in" id="guestSteps" hidden></ol>
   </section>
 
-  <section class="sec" hidden>
-    <h2>Объём на участке 27</h2>
+  <section class="sec">
+    <h2>Участок 27</h2>
     <div class="chips" id="lotMode">
+      <button class="chip" data-mode="bim" aria-pressed="true">Вариант 1 · BIM</button>
+      <button class="chip" data-mode="chalet" aria-pressed="false">Вариант 2 · шале</button>
+    </div>
+    <div class="chips" hidden>
       <button class="chip" data-mode="plan" aria-pressed="false">По генплану · 4 эт.</button>
-      <button class="chip" data-mode="bim" aria-pressed="false">BIM · форма Б</button>
       <button class="chip" data-mode="bimsk" aria-pressed="false">Эскиз: кровля на эркеры</button>
       <button class="chip" data-mode="A" aria-pressed="false">Форма А</button>
       <button class="chip" data-mode="B" aria-pressed="false">Форма Б</button>
       <button class="chip" data-mode="C" aria-pressed="false">Форма В</button>
       <button class="chip" data-mode="none" aria-pressed="false">Пустой участок</button>
     </div>
-    <p class="lot-note" id="lotNote"></p>
+    <p class="lot-note" id="lotNote" hidden></p>
   </section>
 
   <section class="sec" hidden>
@@ -592,6 +595,146 @@ const bimSketchGroup = S.bimSketch ? buildingGroup("bimsk", S.bimSketch, { t: "�
     stencilWrite: true, stencilRef: 1, stencilFunc: THREE.AlwaysStencilFunc, stencilZPass: THREE.ReplaceStencilOp }));
   mask.renderOrder = -10; bimGroup.add(mask);
 }
+// ---------- Вариант 2 · шале (по референсу заказчика): дерево, панорамное остекление, балконы с орнаментом ----------
+const chaletGroup = (() => {
+  const G = new THREE.Group(); G.name = "chalet";
+  const P = S.bim; G.rotation.y = P.theta; G.position.set(P.origin[0], P.ffl, -P.origin[1]);
+  const tex = (w, h, draw, rx, ry) => { const cv = document.createElement("canvas"); cv.width = w; cv.height = h; draw(cv.getContext("2d"), w, h);
+    const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rx, ry); t.anisotropy = 8; return t; };
+  let sd = 11; const r = () => ((sd = (sd * 16807) % 2147483647) / 2147483647);
+  const wood = (rep) => tex(256, 256, (g, w, h) => {                                // старая лиственница: вертикальная доска 200 мм
+    for (let i = 0; i < 8; i++) { const b = 120 + r() * 35; g.fillStyle = `rgb(${b + 30},${b - 8},${b - 50})`; g.fillRect(i * 32, 0, 32, h);
+      for (let k = 0; k < 30; k++) { g.strokeStyle = `rgba(60,35,15,${0.1 + r() * 0.2})`; g.lineWidth = 1; const x = i * 32 + r() * 32; g.beginPath(); g.moveTo(x, 0); g.bezierCurveTo(x + 3, h / 3, x - 3, 2 * h / 3, x + r() * 4, h); g.stroke(); }
+      g.fillStyle = "#3a2615"; g.fillRect(i * 32 + 30, 0, 2, h); } }, rep[0], rep[1]);
+  const logs = tex(256, 256, (g, w, h) => {                                         // брус фасций и балок — горизонтальные волокна
+    g.fillStyle = "#8a5a2e"; g.fillRect(0, 0, w, h);
+    for (let k = 0; k < 90; k++) { g.strokeStyle = `rgba(55,30,12,${0.15 + r() * 0.25})`; const y = r() * h; g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(w / 3, y + 4, 2 * w / 3, y - 4, w, y + r() * 3); g.stroke(); }
+    for (let k = 0; k < 4; k++) { g.fillStyle = "rgba(40,22,8,.5)"; g.fillRect(0, k * 64 + 62, w, 2); } }, 1, 1);
+  const stone = tex(256, 256, (g, w, h) => {
+    g.fillStyle = "#6b655d"; g.fillRect(0, 0, w, h);
+    for (let y = 0; y < h; y += 24) for (let x = -(y / 24 % 2) * 20; x < w; x += 40 + r() * 20) {
+      const c = 85 + r() * 50; g.fillStyle = `rgb(${c},${c - 4},${c - 10})`; g.fillRect(x + 2, y + 2, 36 + r() * 16, 20); } }, 4, 1);
+  // орнамент «кочкор мүйүз» (рога барана): прорезная доска балкона
+  const orn = tex(512, 128, (g, w, h) => {
+    g.fillStyle = "#9a6636"; g.fillRect(0, 0, w, h);
+    for (let k = 0; k < 40; k++) { g.strokeStyle = `rgba(60,32,12,${0.1 + r() * 0.2})`; const y = r() * h; g.beginPath(); g.moveTo(0, y); g.lineTo(w, y + r() * 4); g.stroke(); }
+    g.fillStyle = "#2a160a"; g.strokeStyle = "#2a160a"; g.lineWidth = 7; g.lineCap = "round";
+    const motif = (cx, cy, s) => {
+      g.save(); g.translate(cx, cy);
+      for (const [sx, sy] of [[1, 1], [-1, 1], [1, -1], [-1, -1]]) {
+        g.save(); g.scale(sx, sy);
+        g.beginPath(); g.moveTo(4, 4); g.bezierCurveTo(s * 0.55, 2, s * 0.8, s * 0.25, s * 0.62, s * 0.46);
+        g.bezierCurveTo(s * 0.48, s * 0.62, s * 0.3, s * 0.48, s * 0.4, s * 0.34); g.stroke();
+        g.beginPath(); g.moveTo(4, 4); g.bezierCurveTo(2, s * 0.55, s * 0.25, s * 0.8, s * 0.46, s * 0.62);
+        g.bezierCurveTo(s * 0.62, s * 0.48, s * 0.48, s * 0.3, s * 0.34, s * 0.4); g.stroke();
+        g.restore(); }
+      g.beginPath(); g.moveTo(0, -s * 0.22); g.lineTo(s * 0.22, 0); g.lineTo(0, s * 0.22); g.lineTo(-s * 0.22, 0); g.closePath(); g.fill();
+      g.restore(); };
+    for (let i = 0; i < 4; i++) motif(64 + i * 128, 64, 108);
+    g.lineWidth = 6; g.strokeRect(3, 3, w - 6, h - 6);
+    for (let i = 1; i < 4; i++) { g.beginPath(); g.moveTo(i * 128, 0); g.lineTo(i * 128, h); g.stroke(); } }, 1, 1);
+  const M = {
+    wood: new THREE.MeshStandardMaterial({ map: wood([1, 1]), roughness: 0.85 }),
+    beam: new THREE.MeshStandardMaterial({ map: logs, roughness: 0.8 }),
+    frame: new THREE.MeshStandardMaterial({ color: "#2b211b", roughness: 0.6, metalness: 0.2 }),
+    glass: new THREE.MeshStandardMaterial({ color: "#40505c", roughness: 0.05, metalness: 0.5, transparent: true, opacity: 0.42, side: THREE.DoubleSide }),
+    glow: new THREE.MeshStandardMaterial({ color: "#6b4524", emissive: "#ffb062", emissiveIntensity: 0.8, roughness: 1 }),
+    stone: new THREE.MeshStandardMaterial({ map: stone, roughness: 0.95 }),
+    snow: new THREE.MeshStandardMaterial({ color: "#f4f7fb", roughness: 0.9 }),
+    orn: new THREE.MeshStandardMaterial({ map: orn, roughness: 0.8, side: THREE.DoubleSide }),
+    roofU: new THREE.MeshStandardMaterial({ map: wood([1, 1]), roughness: 0.9, side: THREE.DoubleSide }),
+  };
+  // локальные координаты здания: x — 0…18,64 (запад→восток), y — 0…24,62 (юг→север, фасад на юг), z — вверх от пола 1-го этажа
+  const box = (x0, x1, y0, y1, z0, z1, m, cast = true) => {
+    const g = new THREE.BoxGeometry(x1 - x0, z1 - z0, y1 - y0); const o = new THREE.Mesh(g, m);
+    o.position.set((x0 + x1) / 2, (z0 + z1) / 2, -(y0 + y1) / 2); o.castShadow = cast; o.receiveShadow = true; G.add(o); return o; };
+  const T = 0.32;                                                                     // сечение бруса стоек
+  // ----- крыло: двускатная кровля, конёк вдоль y, щипец на юг и север -----
+  function wing(x0, x1, y0, y1, eave, ridge, floors) {
+    const xm = (x0 + x1) / 2, half = (x1 - x0) / 2;
+    box(x0, x1, y0, y1, -0.9, 0.35, M.stone);                                         // каменный цоколь
+    // интерьер (тёплый свет) — внутренний короб
+    box(x0 + 0.6, x1 - 0.6, y0 + 0.6, y1 - 0.6, 0.35, eave - 0.2, M.glow, false);
+    // боковые стены: дерево с поясом окон
+    for (const xs of [x0, x1]) {
+      box(xs - 0.12, xs + 0.12, y0, y1, 0.35, eave, M.wood);
+      // окна в пол на боковых фасадах: по 2 на этаж и пролёт, рамы из бруса
+      for (let f = 0; f < floors; f++) for (let yy = y0 + 1.6; yy + 2.6 < y1 - 1.0; yy += 4.2) {
+        const z0 = f * 3.4 + 0.5, z1 = f * 3.4 + 3.1, d = xs === x0 ? -0.14 : 0.14;
+        box(xs + d - 0.03, xs + d + 0.03, yy, yy + 2.6, z0, z1, M.glass, false);
+        box(xs + d - 0.08, xs + d + 0.08, yy - 0.12, yy, z0, z1, M.beam); box(xs + d - 0.08, xs + d + 0.08, yy + 2.6, yy + 2.72, z0, z1, M.beam);
+        box(xs + d - 0.08, xs + d + 0.08, yy - 0.12, yy + 2.72, z1, z1 + 0.14, M.beam);
+        box(xs + d - 0.05, xs + d + 0.05, yy + 1.27, yy + 1.33, z0, z1, M.frame);
+      }
+    }
+    // щипцы (юг и север): каркас из бруса + стекло
+    for (const [ys, sgn] of [[y0, -1], [y1, 1]]) {
+      const shape = new THREE.Shape([new THREE.Vector2(-half, 0.35), new THREE.Vector2(half, 0.35), new THREE.Vector2(half, eave), new THREE.Vector2(0, ridge - 0.4), new THREE.Vector2(-half, eave)]);
+      const gl = new THREE.Mesh(new THREE.ShapeGeometry(shape), M.glass); gl.position.set(xm, 0, -(ys + sgn * 0.05)); if (sgn > 0) gl.rotation.y = Math.PI; G.add(gl);
+      const nCols = Math.max(4, Math.round((x1 - x0) / 1.55));
+      for (let i = 0; i <= nCols; i++) {
+        const x = x0 + (x1 - x0) * i / nCols, hx = eave + (ridge - 0.4 - eave) * (1 - Math.abs(x - xm) / half);
+        const main = i === 0 || i === nCols || i === Math.round(nCols / 2) || i === Math.round(nCols / 4) || i === Math.round(3 * nCols / 4);
+        const w = main ? T : 0.07;
+        box(x - w / 2, x + w / 2, ys - (main ? 0.2 : 0.06), ys + (main ? 0.2 : 0.06), 0.35, hx, main ? M.beam : M.frame);
+      }
+      for (let f = 1; f <= floors; f++) {                                            // ригели по перекрытиям и импостам
+        const z = f * 3.4;
+        if (z < eave) box(x0, x1, ys - 0.18, ys + 0.18, z - 0.18, z + 0.18, M.beam);
+        if (z - 1.7 < eave) box(x0, x1, ys - 0.04, ys + 0.04, z - 1.75, z - 1.68, M.frame);
+      }
+      box(x0, x1, ys - 0.2, ys + 0.2, eave - 0.2, eave + 0.2, M.beam);              // затяжка на уровне карниза
+    }
+    // кровля: два ската с выносом 1,4 м, толстая фасция и снег
+    const ov = 1.4, len = (y1 - y0) + 2 * ov, slopeL = Math.hypot(half + ov, (ridge - eave) * (half + ov) / half), ang = Math.atan2(ridge - eave, half);
+    for (const s of [-1, 1]) {
+      const g = new THREE.BoxGeometry(slopeL, 0.45, len); const m = new THREE.Mesh(g, M.beam);
+      m.position.set(xm + s * (half + ov) / 2, ridge - (ridge - eave) * ((half + ov) / half) / 2 + 0.1, -(y0 + y1) / 2); m.rotation.z = -s * ang; m.castShadow = true; G.add(m);
+      const sn = new THREE.Mesh(new THREE.BoxGeometry(slopeL - 0.2, 0.28, len - 0.3), M.snow);
+      sn.position.copy(m.position).add(new THREE.Vector3(s * Math.sin(ang) * 0.36, Math.cos(ang) * 0.36, 0)); sn.rotation.z = -s * ang; G.add(sn);
+    }
+    // торцевые фасции щипцов
+    for (const ys of [y0 - ov, y1 + ov]) for (const s of [-1, 1]) {
+      const g = new THREE.BoxGeometry(slopeL, 0.7, 0.3); const m = new THREE.Mesh(g, M.beam);
+      m.position.set(xm + s * (half + ov) / 2, ridge - (ridge - eave) * ((half + ov) / half) / 2 - 0.05, -ys); m.rotation.z = -s * ang; m.castShadow = true; G.add(m);
+    }
+  }
+  // ----- балкон с прорезным ограждением -----
+  function balcony(x0, x1, y0, y1, z, sides) {
+    box(x0, x1, y0, y1, z - 0.35, z, M.beam);
+    const sn = box(x0 + 0.05, x1 - 0.05, y0 + 0.05, y1 - 0.05, z, z + 0.05, M.snow, false);
+    const H = 1.15;
+    const panel = (ax, ay, bx, by) => {
+      const L = Math.hypot(bx - ax, by - ay), g = new THREE.BoxGeometry(L, H, 0.08), m = new THREE.Mesh(g, M.orn.clone());
+      m.material.map = M.orn.map.clone(); m.material.map.needsUpdate = true; m.material.map.repeat.set(Math.max(1, Math.round(L / 3.2)), 1);
+      m.position.set((ax + bx) / 2, z + H / 2, -(ay + by) / 2); m.rotation.y = Math.atan2(by - ay, bx - ax); m.castShadow = true; G.add(m);
+      const top = new THREE.Mesh(new THREE.BoxGeometry(L + 0.1, 0.12, 0.22), M.beam); top.position.set((ax + bx) / 2, z + H + 0.06, -(ay + by) / 2); top.rotation.y = m.rotation.y; G.add(top);
+      const sn2 = new THREE.Mesh(new THREE.BoxGeometry(L + 0.1, 0.07, 0.2), M.snow); sn2.position.set((ax + bx) / 2, z + H + 0.15, -(ay + by) / 2); sn2.rotation.y = m.rotation.y; G.add(sn2);
+    };
+    if (sides.includes("s")) panel(x0, y0, x1, y0);
+    if (sides.includes("n")) panel(x0, y1, x1, y1);
+    if (sides.includes("w")) panel(x0, y0, x0, y1);
+    if (sides.includes("e")) panel(x1, y0, x1, y1);
+  }
+  // западное крыло — высокий щипец; восточное — ниже и выдвинуто на юг
+  wing(0.0, 9.6, 1.2, 23.4, 10.2, 16.6, 3);
+  wing(9.0, 18.64, -0.6, 21.0, 8.8, 14.0, 2);
+  // балконы: запад — два угловых; восток — два во всю ширину; боковые на восточном фасаде
+  balcony(-1.6, 3.4, -0.4, 1.2, 3.4, "sw"); balcony(-1.6, 3.4, -0.4, 1.2, 6.8, "sw");
+  balcony(9.0, 18.64, -2.4, -0.6, 3.4, "s"); balcony(9.0, 18.64, -2.4, -0.6, 6.8, "s");
+  balcony(18.64, 20.3, 4.0, 11.0, 3.4, "e"); balcony(18.64, 20.3, 4.0, 11.0, 6.8, "e");
+  balcony(-1.6, 0.0, 9.0, 16.0, 6.8, "w");
+  // навес над входом между крыльями (южный фасад) и входная дверь
+  box(3.4, 9.6, -0.8, 1.2, 3.15, 3.55, M.beam); box(3.5, 9.5, -0.7, 1.1, 3.55, 3.75, M.snow, false);
+  for (const x of [3.6, 9.4]) box(x - 0.16, x + 0.16, -0.8, -0.48, 0.0, 3.15, M.beam);
+  box(5.1, 6.9, 1.12, 1.24, 0.0, 2.6, M.beam);
+  // пешеходные дорожки у входа: брусчатка
+  box(3.0, 10.0, -6.0, -0.8, -0.95, -0.9, M.stone, false);
+  G.visible = false; G.userData = { t: "Вариант 2 · шале", f: "3 + мансарда", s: "образ по референсу заказчика, без планировок", a: 458.9, h: 17.5, lot: "27" };
+  scene.add(G);
+  G.traverse((o) => { if (o.isMesh) { o.userData = G.userData; pickables.push(o); } });
+  return G;
+})();
 const formGroups = {};
 for (const [k, fm] of Object.entries(S.forms.meshes)) {
   const mt = S.forms.metrics[k];
@@ -649,6 +792,7 @@ const VIEWS = [
   { hide: 1, id: "mat", name: "Материалы крупно", cam: V(16, -27, 5), tgt: V(2, -9, 7) },
   { hide: 1, id: "eaveE", name: "Карниз восток крупно", cam: V(26, -10, 22), tgt: V(9, -1, 14.5) },
   { hide: 1, id: "eaveW", name: "Карниз запад крупно", cam: V(-26, 8, 22), tgt: V(-9, 1, 14.5) },
+  { hide: 1, id: "chSW", name: "Шале юго-запад", cam: V(-32, -48, 14), tgt: V(4, -2, 9) },
   { hide: 1, id: "east", name: "Фасад восток", cam: V(52, -30, 16), tgt: V(4, -2, 13) },
   { hide: 1, id: "north", name: "Фасад север", cam: V(28, 62, 14), tgt: V(0, 8, 11) },
   { hide: 1, id: "ski", name: "Лыжный вход", cam: V(19, -14, 9), tgt: V(10.4, -5.5, -1.0) },
@@ -712,12 +856,13 @@ const NOTES = {
   plan: "На генплане участок занят объёмом на всё пятно 18,64 × 24,62 м с подписью «4 этажа»: около 16 м.",
   bim: "BIM-модель из IFC, форма Б: асимметричная оболочка, конёк 24,5 м над землёй; сплошные боковины-изломы между балконами на юге и севере (один излом на этаж, соседние в противофазе, вынос до 3 м); боковины доходят до земли; на западе и востоке плиты-изломы с лоджиями и угловыми террасами; 1-й этаж: террасы изломом с кустарником, вход с треугольным козырьком и лестницей, кухня-остров; терраса кафе по всей ширине севера со столиками; лыжный спуск в полуцоколь у юго-восточного угла.",
   bimsk: "ЭСКИЗ, не утверждён: скаты кровли продолжаются в своей плоскости до вершин эркеров 4-го этажа. Восток (30°): у вершины скат на 0,45 м выше эркера — треугольные графитовые щёки над стеклом. Запад (50,6°): скат у вершины на 0,83 м ниже прежнего потолка — потолок эркеров 4-го этажа наклонный, от 3,1 м у стены до 2,2 м у вершины, стекло подрезано по скату.",
+  chalet: "",
   none: "Пятно 458,9 м², рельеф почти ровный: перепад по углам около 0,5 м, отметка 2248 м.",
 };
 const lotNote = document.getElementById("lotNote");
 function setLotMode(mode) {
   for (const b of document.querySelectorAll("#lotMode .chip")) b.setAttribute("aria-pressed", String(b.dataset.mode === mode));
-  grp("lot27").visible = mode === "plan"; askGroup.visible = false; bimGroup.visible = mode === "bim";
+  grp("lot27").visible = mode === "plan"; askGroup.visible = false; bimGroup.visible = mode === "bim"; chaletGroup.visible = mode === "chalet";
   if (bimSketchGroup) bimSketchGroup.visible = mode === "bimsk";
   for (const [k, g] of Object.entries(formGroups)) g.visible = mode === k;
   const fm = S.forms.metrics[mode];
@@ -763,6 +908,7 @@ setTone("basalt");                               // принят тёмный б
   const parts = (location.hash || "").replace("#", "").split("-");
   if (parts.includes("cover")) { document.getElementById("panel").hidden = true; }
   if (parts.includes("sketch")) setTimeout(() => setLotMode("bimsk"), 200);
+  if (parts.includes("chalet")) setTimeout(() => setLotMode("chalet"), 200);
   { const m = parts.includes("guest") || parts.some((p) => p.startsWith("gs")) ? "guest" : parts.includes("proposal") || parts.some((p) => p.startsWith("pr")) ? "proposal"
       : parts.includes("input") || parts.some((p) => /^in[A-Z]/.test(p)) ? "input" : null;
     if (m) setTimeout(() => setPlan(m), 250);
